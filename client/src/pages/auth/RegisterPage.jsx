@@ -22,8 +22,11 @@ export default function RegisterPage() {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm({ resolver: zodResolver(registerSchema), defaultValues: { role: 'CLIENT' } });
+
+  const watchedPassword = watch('password');
 
   const chooseRole = (value) => {
     setRole(value);
@@ -122,6 +125,12 @@ export default function RegisterPage() {
             <Input label="Full name" placeholder="Jamie Rivera" error={errors.fullName?.message} {...register('fullName')} />
             <Input label="Email address" type="email" placeholder="you@example.com" error={errors.email?.message} {...register('email')} />
             <Input label="Password" type="password" placeholder="••••••••" error={errors.password?.message} {...register('password')} />
+            {/* Visual password strength bar */}
+            <div className="flex gap-1 -mt-1">
+              <div className={clsx('h-1 flex-1 rounded-full transition-colors', watchedPassword && watchedPassword.length >= 1 ? 'bg-rust-400' : 'bg-cream-200')} />
+              <div className={clsx('h-1 flex-1 rounded-full transition-colors', watchedPassword && watchedPassword.length >= 6 ? 'bg-peach-400' : 'bg-cream-200')} />
+              <div className={clsx('h-1 flex-1 rounded-full transition-colors', watchedPassword && watchedPassword.length >= 10 ? 'bg-forest-400' : 'bg-cream-200')} />
+            </div>
             <Input label="Confirm password" type="password" placeholder="••••••••" error={errors.confirmPassword?.message} {...register('confirmPassword')} />
 
             <label className="flex items-center gap-2 text-xs text-ink-500 cursor-pointer">

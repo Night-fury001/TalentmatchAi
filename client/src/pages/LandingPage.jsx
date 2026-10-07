@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Users, Zap, Heart, ShieldCheck } from 'lucide-react';
-import TalentMatchLogo from '../components/TalentMatchLogo';
 
 const FEATURES = [
   { icon: Users, title: 'Human & AI Synergy', description: 'AI surfaces the best matches, but every hiring decision stays beautifully human.' },
