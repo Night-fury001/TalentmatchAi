@@ -1,0 +1,111 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  darkMode: 'class',
+  content: ['./index.html', './src/**/*.{js,jsx}'],
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ['"Cabinet Grotesk"', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+      },
+      colors: {
+        cream: {
+          50: '#fdf9f4',
+          100: '#f8f0e6',
+          200: '#ede0cc',
+          300: '#d4bc99',
+          400: '#b89b72',
+          500: '#9a7a52',
+        },
+        forest: {
+          50: '#eef3ee',
+          100: '#d4e4d4',
+          200: '#a9c9aa',
+          300: '#7aaa7c',
+          400: '#4d8b50',
+          500: '#2d6b30',
+          600: '#235326',
+          700: '#1a3d1c',
+          800: '#122814',
+          900: '#0a160b',
+        },
+        rust: {
+          50: '#fdf3ee',
+          100: '#fae0ce',
+          200: '#f5bc9a',
+          300: '#eb9060',
+          400: '#d96730',
+          500: '#c04a18',
+          600: '#9a3a12',
+        },
+        peach: {
+          50: '#fdf6ef',
+          100: '#fbead8',
+          200: '#f5d0a8',
+          300: '#edb070',
+          400: '#e08840',
+          500: '#c96a20',
+        },
+        brand: {
+          50: '#eef3ee',
+          100: '#d4e4d4',
+          200: '#a9c9aa',
+          300: '#7aaa7c',
+          400: '#4d8b50',
+          500: '#2d6b30',
+          600: '#235326',
+          700: '#1a3d1c',
+          800: '#122814',
+          900: '#0a160b',
+        },
+        ink: {
+          50: '#fdf9f4',
+          100: '#f3ebe0',
+          200: '#ddd0be',
+          300: '#bba98a',
+          400: '#99835e',
+          500: '#7a6448',
+          600: '#5e4c35',
+          700: '#463924',
+          800: '#2e2516',
+          900: '#1c160c',
+          950: '#100d06',
+        },
+        glow: {
+          emerald: '#34d399',
+          amber: '#fbbf24',
+          rose: '#fb7185',
+        },
+      },
+      backgroundImage: {
+        'grain': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E\")",
+        'radial-fade': 'radial-gradient(circle at top left, var(--tw-gradient-stops))',
+      },
+      borderRadius: {
+        '2xl': '1rem',
+        '3xl': '1.5rem',
+        '4xl': '2rem',
+      },
+      boxShadow: {
+        soft: '0 2px 8px -2px rgba(24,24,28,0.06), 0 8px 24px -8px rgba(24,24,28,0.08)',
+        lift: '0 8px 30px -8px rgba(45,107,48,0.35)',
+        glow: '0 0 0 1px rgba(52,211,153,0.25), 0 0 24px -4px rgba(52,211,153,0.45)',
+      },
+      keyframes: {
+        'fade-up': {
+          '0%': { opacity: 0, transform: 'translateY(12px)' },
+          '100%': { opacity: 1, transform: 'translateY(0)' },
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '-400px 0' },
+          '100%': { backgroundPosition: '400px 0' },
+        },
+      },
+      animation: {
+        'fade-up': 'fade-up 0.5s cubic-bezier(0.16,1,0.3,1) both',
+        shimmer: 'shimmer 1.6s linear infinite',
+      },
+    },
+  },
+  plugins: [],
+};
