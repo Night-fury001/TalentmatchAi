@@ -3,15 +3,15 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   LayoutDashboard,
-  Search,
   Sparkles,
-  ClipboardList,
-  Bookmark,
-  UserCircle,
   Menu,
   X,
   LogOut,
   ChevronDown,
+  Settings,
+  Users,
+  Briefcase,
+  Search,
 } from 'lucide-react';
 import clsx from 'clsx';
 import { useAuth } from '../context/AuthContext';
@@ -20,12 +20,11 @@ import Avatar from '../components/ui/Avatar';
 import TalentMatchLogo from '../components/TalentMatchLogo';
 
 const NAV_ITEMS = [
-  { to: '/client/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/jobs', label: 'Explore jobs', icon: Search },
-  { to: '/client/recommendations', label: 'AI matches', icon: Sparkles },
-  { to: '/client/applications', label: 'Applications', icon: ClipboardList },
-  { to: '/client/saved-jobs', label: 'Saved jobs', icon: Bookmark },
-  { to: '/client/profile', label: 'Profile', icon: UserCircle },
+  { to: '/client/dashboard',    label: 'Dashboard',      icon: LayoutDashboard },
+  { to: '/client/candidates',   label: 'Candidates',     icon: Users },
+  { to: '/client/job-openings', label: 'Job Openings',   icon: Briefcase },
+  { to: '/client/ai-rules',     label: 'AI Match Rules', icon: Sparkles },
+  { to: '/client/settings',     label: 'Settings',       icon: Settings },
 ];
 
 function SidebarContent({ onNavigate }) {
@@ -39,7 +38,9 @@ function SidebarContent({ onNavigate }) {
           className={({ isActive }) =>
             clsx(
               'flex items-center gap-3 rounded-2xl px-3.5 py-2.5 text-sm font-medium transition-colors',
-              isActive ? 'bg-forest-500/10 text-forest-600' : 'text-ink-600 hover:bg-cream-100 hover:text-ink-900'
+              isActive
+                ? 'bg-forest-500/10 text-forest-600'
+                : 'text-ink-600 hover:bg-cream-100 hover:text-ink-900'
             )
           }
         >
@@ -82,6 +83,15 @@ export default function ClientLayout() {
           TalentMatch AI
         </div>
         <SidebarContent />
+
+        {/* Bottom user info */}
+        <div className="px-4 py-4 border-t border-cream-200 flex items-center gap-3 mt-auto">
+          <Avatar src={profile?.avatarUrl} name={profile?.fullName} size="sm" />
+          <div className="min-w-0">
+            <p className="text-sm font-semibold text-ink-900 truncate">{profile?.fullName || 'User'}</p>
+            <p className="text-xs text-ink-500">Recruiter</p>
+          </div>
+        </div>
       </aside>
 
       {/* Mobile sidebar */}
@@ -124,6 +134,15 @@ export default function ClientLayout() {
           </button>
 
           <div className="ml-auto flex items-center gap-2">
+            {/* Search bar */}
+            <div className="hidden lg:flex items-center gap-2 rounded-full border border-cream-200 bg-cream-50 px-3 py-1.5 mr-1">
+              <input
+                className="bg-transparent text-sm outline-none placeholder:text-ink-400 w-44"
+                placeholder="Search candidates, jobs..."
+              />
+              <Search className="w-3.5 h-3.5 text-ink-400 shrink-0" />
+            </div>
+
             <NotificationBell />
 
             <div className="relative" ref={menuRef}>
@@ -153,7 +172,6 @@ export default function ClientLayout() {
                       onClick={() => setMenuOpen(false)}
                       className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-ink-700 hover:bg-cream-100"
                     >
-                      <UserCircle className="w-4 h-4" />
                       View profile
                     </NavLink>
                     <button

@@ -10,7 +10,9 @@ import {
   X,
   LogOut,
   ChevronDown,
-  Plus,
+  MessageSquare,
+  CalendarClock,
+  Search,
 } from 'lucide-react';
 import clsx from 'clsx';
 import { useAuth } from '../context/AuthContext';
@@ -19,10 +21,11 @@ import Avatar from '../components/ui/Avatar';
 import TalentMatchLogo from '../components/TalentMatchLogo';
 
 const NAV_ITEMS = [
-  { to: '/recruiter/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/recruiter/companies', label: 'Companies', icon: Building2 },
-  { to: '/recruiter/jobs', label: 'Job postings', icon: Briefcase },
-  { to: '/recruiter/applications', label: 'All applications', icon: Users },
+  { to: '/recruiter/dashboard',  label: 'Dashboard',          icon: LayoutDashboard, badge: null },
+  { to: '/recruiter/jobs',       label: 'Job Postings',       icon: Briefcase,       badge: '5 Active',  badgeStyle: 'normal' },
+  { to: '/recruiter/talent',     label: 'Talent Sourcing',    icon: Users,           badge: 'AI Match',  badgeStyle: 'normal' },
+  { to: '/recruiter/messages',   label: 'Message Center',     icon: MessageSquare,   badge: '3 Unread',  badgeStyle: 'alert' },
+  { to: '/recruiter/interviews', label: 'Interviews & Events',icon: CalendarClock,   badge: null },
 ];
 
 function SidebarContent({ onNavigate }) {
@@ -36,23 +39,35 @@ function SidebarContent({ onNavigate }) {
           className={({ isActive }) =>
             clsx(
               'flex items-center gap-3 rounded-2xl px-3.5 py-2.5 text-sm font-medium transition-colors',
-              isActive ? 'bg-forest-500/10 text-forest-600' : 'text-ink-600 hover:bg-cream-100 hover:text-ink-900'
+              isActive
+                ? 'bg-forest-500/10 text-forest-600'
+                : 'text-ink-600 hover:bg-cream-100 hover:text-ink-900'
             )
           }
         >
-          <item.icon className="w-4.5 h-4.5" />
-          {item.label}
+          {({ isActive }) => (
+            <>
+              <item.icon className="w-[18px] h-[18px] shrink-0" />
+              <span className="flex-1 truncate">{item.label}</span>
+              {isActive ? (
+                <span className="ml-auto text-[10px] font-medium bg-forest-500/15 text-forest-700 px-1.5 py-0.5 rounded-full">
+                  Active
+                </span>
+              ) : item.badge ? (
+                item.badgeStyle === 'alert' ? (
+                  <span className="ml-auto text-[10px] font-medium bg-red-500 text-white px-1.5 py-0.5 rounded-full">
+                    {item.badge}
+                  </span>
+                ) : (
+                  <span className="ml-auto text-[10px] font-medium bg-cream-200 text-ink-600 px-1.5 py-0.5 rounded-full">
+                    {item.badge}
+                  </span>
+                )
+              ) : null}
+            </>
+          )}
         </NavLink>
       ))}
-
-      <NavLink
-        to="/recruiter/jobs/new"
-        onClick={onNavigate}
-        className="mt-3 flex items-center gap-3 rounded-2xl px-3.5 py-2.5 text-sm font-semibold bg-forest-500 text-white hover:bg-forest-600 transition-colors"
-      >
-        <Plus className="w-4.5 h-4.5" />
-        Post a job
-      </NavLink>
     </nav>
   );
 }
@@ -81,6 +96,7 @@ export default function RecruiterLayout() {
 
   return (
     <div className="min-h-screen bg-cream-50">
+      {/* Desktop sidebar */}
       <aside className="hidden lg:flex fixed inset-y-0 left-0 w-64 flex-col border-r border-cream-200 bg-cream-50">
         <div className="flex items-center gap-2 px-5 py-5 font-display text-lg font-bold text-ink-900">
           <TalentMatchLogo className="h-8 w-8" />
@@ -92,6 +108,7 @@ export default function RecruiterLayout() {
         <SidebarContent />
       </aside>
 
+      {/* Mobile sidebar */}
       <AnimatePresence>
         {mobileOpen && (
           <div className="fixed inset-0 z-40 lg:hidden">
@@ -122,7 +139,8 @@ export default function RecruiterLayout() {
       </AnimatePresence>
 
       <div className="lg:pl-64">
-        <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-cream-200 bg-cream-50/90 backdrop-blur px-5 py-3.5">
+        {/* Header */}
+        <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-cream-200 bg-white/95 backdrop-blur px-5 py-3">
           <button
             onClick={() => setMobileOpen(true)}
             className="rounded-full p-2 text-ink-500 hover:bg-cream-100 lg:hidden"
@@ -130,7 +148,35 @@ export default function RecruiterLayout() {
             <Menu className="w-5 h-5" />
           </button>
 
-          <div className="ml-auto flex items-center gap-2">
+          <h1 className="text-lg font-semibold text-ink-900 hidden lg:block shrink-0">Dashboard</h1>
+
+          {/* Tab pills */}
+          <div className="hidden lg:flex items-center gap-0.5 ml-4">
+            {['Jobs', 'Talent Pool', 'Analytics', 'Settings'].map((tab, i) => (
+              <button
+                key={tab}
+                className={clsx(
+                  'rounded-full px-4 py-1.5 text-sm font-medium transition-colors',
+                  i === 0
+                    ? 'bg-cream-100 text-ink-900'
+                    : 'text-ink-500 hover:bg-cream-50 hover:text-ink-700'
+                )}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          {/* Search */}
+          <div className="ml-auto hidden lg:flex items-center gap-2 rounded-full border border-cream-200 bg-cream-50 px-3 py-1.5">
+            <Search className="w-3.5 h-3.5 text-ink-400 shrink-0" />
+            <input
+              className="bg-transparent text-sm outline-none placeholder:text-ink-400 w-28"
+              placeholder="Search..."
+            />
+          </div>
+
+          <div className="flex items-center gap-2 lg:ml-2">
             <NotificationBell />
 
             <div className="relative" ref={menuRef}>
